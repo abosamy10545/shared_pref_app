@@ -72,14 +72,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   fixedSize: Size(double.maxFinite, 50),
                 ),
                 onPressed: () async {
-                  if (formKey.currentState!.validate()) {}
-                  await SharedPre.saveStringData('name', nameController.text);
-                  await SharedPre.saveIntData(
-                    'age',
-                    int.parse(ageController.text),
-                  );
-                  setState(() {});
+                  if (formKey.currentState!.validate()) {
+                    // سيتم الحفظ فقط إذا كانت جميع الحقول صحيحة
+                    await SharedPre.saveStringData('name', nameController.text);
+                    await SharedPre.saveIntData(
+                      'age',
+                      int.parse(ageController.text),
+                    );
+                    setState(() {});
+                  }
                 },
+
                 child: Text(AppStrings.saveButton),
               ),
               ElevatedButton(
@@ -91,17 +94,46 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () async {
                   name = await SharedPre.getString('name');
                   age = await SharedPre.getInt('age');
-                  setState(() {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return Container(
-                          width: double.infinity,
-                          color: Colors.white,
-                        );
-                      },
-                    );
-                  });
+                  setState(() {});
+                  showModalBottomSheet(
+                    // ignore: use_build_context_synchronously
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        height: 200,
+                        width: double.infinity,
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                          color: AppColors.buttonBackground,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Name: ${name ?? ''}',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: AppColors.buttonText,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'Age: ${age?.toString() ?? ''}',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: AppColors.buttonText,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
                 child: Text(AppStrings.getButton),
               ),

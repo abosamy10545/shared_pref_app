@@ -16,18 +16,18 @@ class SharedPre {
  static Future getString(String key) async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    sharedPreferences.getString(key);
+   return sharedPreferences.getString(key);
   }
 
  static Future getInt(String key) async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    sharedPreferences.getInt(key);
+   return sharedPreferences.getInt(key);
   }
 
  static Future removeData(String key) async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    sharedPreferences.remove(key);
+   return sharedPreferences.remove(key);
   }
 }
